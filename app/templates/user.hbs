@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <div class="page-header">
+    <h1><span id="username">{{model.username}}</span>
+      <span style="font-size: .67em">
+        <span class="badge badge-default">User</span>
+      </span>
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div>
+        <div class="img-hover">
+          <img class="img-fluid mx-auto img-hover-img" src="{{model.imageUrl}}">
+          <div class="img-hover-content" title="Upload profile picture" {{action (action (mut modal3) true)
+                                                                                 on="click"}}>
+            {{fa-icon "upload" click=(action (mut modal3) true) size=5 class="fa-inverse"}}
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p>Last seen <span id="last-seen">{{moment-from-now model.lastSeen interval=1000}}</span></p>
+      </div>
+    </div>
+
+    <div class="col-md-8 tabs-with-content">
+      {{#bs-tab class="nav-justified" as |tab|}}
+        {{#tab.pane title="Profile"}}
+          {{model.bio}}
+        {{/tab.pane}}
+        {{#tab.pane title="Recent Matches"}}
+          <table class="table">
+            <thead>
+            <tr>
+              <th>a</th>
+              <th>b</th>
+              <th>c</th>
+            </tr>
+            <tr>
+              <td>d</td>
+              <td>e</td>
+              <td>f</td>
+            </tr>
+            </thead>
+          </table>
+        {{/tab.pane}}
+        {{#tab.pane title="Friends"}}
+          <table class="table">
+            <thead>
+            <tr>
+              <th>a</th>
+              <th>b</th>
+              <th>c</th>
+            </tr>
+            <tr>
+              <td>d</td>
+              <td>e</td>
+              <td>f</td>
+            </tr>
+            </thead>
+          </table>
+        {{/tab.pane}}
+      {{/bs-tab}}
+    </div>
+  </div>
+  {{#bs-modal open=modal3 onHidden=(action (mut modal3) false) as |modal|}}
+    {{#modal.header}}
+      <h4 class="modal-title">
+        Upload profile image
+      </h4>
+    {{/modal.header}}
+    {{#modal.body}}
+      {{#file-dropzone name="photos"  as |dropzone queue|}}
+        {{#if dropzone.active}}
+          {{#if dropzone.valid}}
+            <div class="drop">
+              Drop to upload
+            </div>
+          {{else}}
+            Invalid
+          {{/if}}
+        {{else if queue.files.length}}
+          Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+        {{else}}
+          <div class="drop">
+            {{#if dropzone.supported}}
+              Drag and drop images onto this area to upload them or
+            {{/if}}
+            {{#file-upload name="photos"
+                           accept="image/*"
+                           multiple=false
+                           onfileadd=(action modal.close)
+                           onfileadd=(route-action "uploadImage")
+            }}
+              <a id="upload-image" tabindex=0>Add an Image.</a>
+            {{/file-upload}}
+          </div>
+        {{/if}}
+      {{/file-dropzone}}
+    {{/modal.body}}
+    {{#modal.footer}}
+      {{#bs-button onClick=(action modal.close)}}Close{{/bs-button}}
+    {{/modal.footer}}
+  {{/bs-modal}}
+</div>

@@ -1,0 +1,158 @@
+//noinspection CssUnknownTarget
+@import "ember-bootstrap/bootstrap";
+
+.tabs-with-content > {
+  .bg-primary,
+  .bg-success,
+  .bg-info,
+  .bg-warning,
+  .bg-danger,
+  .bg-inverse,
+  .bg-faded {
+    &:not(.navbar) {
+      padding: .5rem;
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+    }
+  }
+}
+
+.tabs-with-content {
+  position: relative;
+  @include clearfix();
+
+  .pos-f-t {
+    position: relative;
+    margin: -1rem;
+
+    @include media-breakpoint-up(sm) {
+      margin: -1.5rem;
+    }
+  }
+}
+
+.img-hover {
+  position: relative;
+}
+
+.drop {
+  background-color: #2E3134;
+  padding: 40px 50px;
+  margin-bottom: 30px;
+  border: 20px solid rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  text-align: center;
+  text-transform: uppercase;
+
+  font-size: 16px;
+  font-weight: bold;
+  color: #7f858a;
+}
+
+.drop a {
+  background-color: #007a96;
+  padding: 12px 26px;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 12px;
+  line-height: 1;
+}
+
+.drop a:hover {
+  background-color: #0986a3;
+}
+
+.fa-inverse {
+  color: white;
+}
+
+.drop input {
+  display: none;
+}
+
+.img-hover-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, .50);
+  cursor: pointer;
+  background-size: cover;
+  visibility: hidden;
+  opacity: 0;
+
+  /* transition effect. not necessary */
+  transition: opacity .2s, visibility .2s;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-hover:hover .img-hover-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+.loader-not-centered {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  position: relative;
+  top: calc(50% - 60px);
+  left: calc(50% - 60px);
+  animation: spin 2s linear infinite;
+}
+
+.tabs-with-content .nav-tabs {
+  margin-bottom: 1rem
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#error-header {
+  text-align: center;
+  font-size: 5em;
+}
+
+.error-container {
+  color: #c13b32;
+  background: #e7e7e7;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  text-transform: lowercase;
+}
+
+#error-details {
+  font-size: 95%;
+}
+
+#error {
+  position: fixed;
+  font-size: 5%;
+  bottom: 2%;
+}
+

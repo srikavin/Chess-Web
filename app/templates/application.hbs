@@ -1,0 +1,48 @@
+{{#bs-navbar fluid=true backgroundColor="faded" as |navbar|}}
+  <div class="navbar-header">
+    {{navbar.toggle}}
+    {{#link-to "index" class="navbar-brand"}}Chess{{/link-to}}
+  </div>
+  {{#navbar.content}}
+    {{#navbar.nav class="mr-auto" as |nav|}}
+      {{#nav.item}}{{#nav.link-to "index"}}Home{{/nav.link-to}}{{/nav.item}}
+      {{#nav.item}}{{#nav.link-to "login"}}Navbars{{/nav.link-to}}{{/nav.item}}
+    {{/navbar.nav}}
+    {{#navbar.nav as |nav|}}
+      {{#nav.item class="dropdown"}}
+        {{#bs-dropdown tagName="li" as |dd|}}
+          {{#if auth.loggedIn}}
+            {{#dd.toggle class="nav-link"}}{{auth.username}}{{/dd.toggle}}
+            {{#dd.menu class="dropdown-menu-right"}}
+              {{#link-to "login" class="dropdown-item"}}
+                <div class="row">
+                  <div class="col-3">{{fa-icon "user"}}</div>
+                  <div class="col-9">Profile</div>
+                </div>
+              {{/link-to}}
+              {{#link-to "login" class="dropdown-item"}}
+                <div class="row">
+                  <div class="col-3">{{fa-icon "sign-out"}}</div>
+                  <div class="col-9">Log out</div>
+                </div>
+              {{/link-to}}
+            {{/dd.menu}}
+          {{else}}
+            {{#dd.toggle class="nav-link"}}User{{/dd.toggle}}
+            {{#dd.menu class="dropdown-menu-right"}}
+              {{#link-to "login" class="dropdown-item"}}Login{{/link-to}}
+              {{#link-to "login" class="dropdown-item"}}Register{{/link-to}}
+            {{/dd.menu}}
+          {{/if}}
+        {{/bs-dropdown}}
+      {{/nav.item}}
+    {{/navbar.nav}}
+
+
+  {{/navbar.content}}
+{{/bs-navbar}}
+
+
+<div class="container-fluid">
+  {{outlet}}
+</div>
