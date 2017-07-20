@@ -1,20 +1,18 @@
 import Ember from 'ember';
 import ENV from '../../config/environment';
-// import Chess from 'npm:chess.js';
+
 let board;
-// import Chess from 'chess.js';
 let Chess = window.ChessJS;
+let ChessBoard = window.ChessBoard;
 export default Ember.Controller.extend({
-  game_id: null,
   auth: Ember.inject.service('auth'),
   init() {
-    this._super();
+    this._super(...params);
     const context = this;
     const chess = Chess();
-    console.log("model", this.get('model'));
+
     Ember.run.schedule('afterRender', this, function () {
       const socket = new WebSocket("ws://" + ENV.APP.HOSTNAME + "/game/" + this.get('game_id'));
-      window.test = socket;
       socket.onmessage = onUpdate;
       socket.onopen = function () {
         socket.send(JSON.stringify({request: 'update'}));
@@ -25,7 +23,8 @@ export default Ember.Controller.extend({
         pieceTheme: '/assets/img/chesspieces/wikipedia/{piece}.png',
         onDrop: onDrop
       });
-      $(window).on('resize', () => board.resize());
+
+      window.addEventListener('resize', () => board.resize());
 
       const auth = this.get('auth');
 
@@ -53,7 +52,6 @@ export default Ember.Controller.extend({
           board.position(fen);
           chess.load(fen);
           context.set('fen', fen);
-          console.log(fen);
         }
         if (a) {
           a = !a;

@@ -10,7 +10,6 @@ module.exports = function (defaults) {
       'bootstrapVersion': 4,
       'importBootstrapFont': false,
       'importBootstrapCSS': false,
-      // 'importBootstrapTheme': true
     }
   });
 

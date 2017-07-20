@@ -10,7 +10,6 @@ export default Ember.Route.extend({
     return this.get('store').findRecord('user', params.user_id);
   },
   uploadPhoto: task(function* (file) {
-    console.log(this.get('auth'));
     yield file.upload(ENV.APP.HOST + '/api/v1/me/image?token=' + this.get('auth').getToken());
   }).maxConcurrency(3).enqueue(),
 
@@ -19,11 +18,4 @@ export default Ember.Route.extend({
       get(this, 'uploadPhoto').perform(file);
     }
   },
-  serialize(model) {
-    alert(1);
-    return {
-      user_id: params.user_id + 'asd',
-      username: model.get('username')
-    }
-  }
 });

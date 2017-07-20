@@ -16,9 +16,7 @@ export default Ember.Controller.extend({
           this.setProperties({user: '', pass: '', login_failed: false, register_failed: false});
           this.get('auth').set('token', request.token);
           this.get('auth').login(request);
-          console.log(request);
           if (after) {
-            console.log(after, params);
             this.transitionToRoute(after, JSON.parse(params));
           } else {
             this.transitionToRoute('user', request.userid);
