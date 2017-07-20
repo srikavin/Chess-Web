@@ -1,9 +1,11 @@
 /* eslint-env node */
+'use strict';
+
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const pickFiles = require('broccoli-static-compiler');
 
 module.exports = function (defaults) {
-  var app = new EmberApp(defaults, {
+  let app = new EmberApp(defaults, {
     'ember-bootstrap': {
       'bootstrapVersion': 4,
       'importBootstrapFont': false,
