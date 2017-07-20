@@ -5,14 +5,23 @@
     <p>
     <div class="card-text row">
       <div class="col-5">
-        {{#link-to "user" data.playerBlack.id}}{{data.playerBlack.username}}{{/link-to}}
+        {{#if data.playerBlack}}
+          {{#link-to "user" data.playerBlack.id}}{{data.playerBlack.username}}{{/link-to}}
+        {{else}}
+          <a class="dot-animation">Waiting<span>.</span><span>.</span><span>.</span></a>
+        {{/if}}
       </div>
       <div class="col-2" style="text-align: center"><b>vs</b></div>
       <div class="col-5" style="text-align: right">
-        {{#link-to "user" data.playerWhite.id}}{{data.playerWhite.username}}{{/link-to}}
+        {{#if data.playerWhite}}
+          {{#link-to "user" data.playerWhite.id}}{{data.playerWhite.username}}{{/link-to}}
+        {{else}}
+          <a class="dot-animation">Waiting<span>.</span><span>.</span><span>.</span></a>
+        {{/if}}
       </div>
     </div>
     </p>
-    {{#link-to 'games.game' data.id class="btn btn-primary"}}Spectate{{/link-to}}
+    {{#link-to 'games.game' data.id class="btn btn-primary"}}{{if (and data.playerWhite data.playerBlack) 'Spectate'
+                                                                  'Join'}}{{/link-to}}
   </div>
 </div>

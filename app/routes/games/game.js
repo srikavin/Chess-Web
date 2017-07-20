@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   auth: Ember.inject.service('auth'),
@@ -14,12 +15,9 @@ export default Ember.Route.extend({
     }
     return params;
   },
+
   setupController(controller, model) {
-    // Call _super for default behavior
-    this._super(controller, model);
-    // Implement your custom setup after
-    // console.log(this.controllerFor('games.game'));
+    this._super(...arguments);
     controller.set('game_id', this.get('game_id'))
-    // this.controllerFor('games.game').set('game_id', this.get('game_id'));
   }
 });

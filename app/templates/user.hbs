@@ -8,15 +8,23 @@
   </div>
   <div class="row">
     <div class="col-md-4">
-      <div>
-        <div class="img-hover">
-          <img class="img-fluid mx-auto img-hover-img" src="{{model.imageUrl}}">
-          <div class="img-hover-content" title="Upload profile picture" {{action (action (mut modal3) true)
-                                                                                 on="click"}}>
-            {{fa-icon "upload" click=(action (mut modal3) true) size=5 class="fa-inverse"}}
+      {{log auth}}
+      {{log model.id}}
+      {{log auth.userid}}
+      {{#if (and auth.loggedIn (eq model.id auth.userid))}}
+        <div>
+
+          <div class="img-hover">
+            <img class="img-fluid mx-auto img-hover-img" src="{{model.imageUrl}}">
+            <div class="img-hover-content" title="Upload profile picture" {{action (action (mut modal3) true)
+                                                                                   on="click"}}>
+              {{fa-icon "upload" click=(action (mut modal3) true) size=5 class="fa-inverse"}}
+            </div>
           </div>
         </div>
-      </div>
+      {{else}}
+        <img class="img-fluid mx-auto img-hover-img" src="{{model.imageUrl}}">
+      {{/if}}
       <div class="panel-body">
         <p>Last seen <span id="last-seen">{{moment-from-now model.lastSeen interval=1000}}</span></p>
       </div>

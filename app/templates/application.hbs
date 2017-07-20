@@ -14,13 +14,13 @@
           {{#if auth.loggedIn}}
             {{#dd.toggle class="nav-link"}}{{auth.username}}{{/dd.toggle}}
             {{#dd.menu class="dropdown-menu-right"}}
-              {{#link-to "login" class="dropdown-item"}}
+              {{#link-to "user" auth.userid class="dropdown-item"}}
                 <div class="row">
                   <div class="col-3">{{fa-icon "user"}}</div>
                   <div class="col-9">Profile</div>
                 </div>
               {{/link-to}}
-              {{#link-to "login" class="dropdown-item"}}
+              {{#link-to "logout" class="dropdown-item"}}
                 <div class="row">
                   <div class="col-3">{{fa-icon "sign-out"}}</div>
                   <div class="col-9">Log out</div>
@@ -30,8 +30,18 @@
           {{else}}
             {{#dd.toggle class="nav-link"}}User{{/dd.toggle}}
             {{#dd.menu class="dropdown-menu-right"}}
-              {{#link-to "login" class="dropdown-item"}}Login{{/link-to}}
-              {{#link-to "login" class="dropdown-item"}}Register{{/link-to}}
+              {{#link-to "login" class="dropdown-item"}}
+                <div class="row">
+                  <div class="col-3">{{fa-icon "sign-in"}}</div>
+                  <div class="col-9">Log in</div>
+                </div>
+              {{/link-to}}
+              {{#link-to "login" class="dropdown-item"}}
+                <div class="row">
+                  <div class="col-3">{{fa-icon "user"}}</div>
+                  <div class="col-9">Register</div>
+                </div>
+              {{/link-to}}
             {{/dd.menu}}
           {{/if}}
         {{/bs-dropdown}}

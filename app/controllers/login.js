@@ -21,23 +21,24 @@ export default Ember.Controller.extend({
             console.log(after, params);
             this.transitionToRoute(after, JSON.parse(params));
           } else {
-            this.transitionToRoute("user", request.userid);
+            this.transitionToRoute('user', request.userid);
           }
+        } else {
+          this.set('login_failed', true);
+          this.set('register_failed', false);
         }
       });
-      this.set("login_failed", true);
-      this.set("register_failed", false);
     },
     register() {
       const {user, pass} = this.getProperties('user', 'pass');
       sendRequest(this, user, pass, 'register').then((request) => {
         this.setProperties({user: '', pass: ''});
-        this.set("login_failed", false);
-        this.set("register_failed", false);
-        this.transitionToRoute("user", request.id);
+        this.set('login_failed', false);
+        this.set('register_failed', false);
+        this.transitionToRoute('user', request.id);
       });
-      this.set("login_failed", false);
-      this.set("register_failed", true);
+      this.set('login_failed', false);
+      this.set('register_failed', true);
     }
   }
 });
@@ -45,10 +46,10 @@ export default Ember.Controller.extend({
 function sendRequest(self, user, pass, action) {
   let host = self.store.adapterFor('application').get('host'),
     namespace = self.store.adapterFor('application').namespace,
-    URL = [host, namespace, action].join('/');
+    URL = [host, namespace, 'auth'].join('/');
   return Ember.$.ajax({
-    method: "POST",
+    method: 'POST',
     url: URL,
-    data: {username: user, password: pass}
+    data: {request: action, username: user, password: pass}
   });
 }

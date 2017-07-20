@@ -3,9 +3,8 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   auth: Ember.inject.service('auth'),
   beforeModel() {
-    console.log(this.get('auth').get('loggedIn'));
-    this.set("user", '');
-    this.set("pass", '');
+    this.set('user', '');
+    this.set('pass', '');
   },
 
   serialize(model) {

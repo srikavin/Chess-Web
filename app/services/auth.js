@@ -1,52 +1,71 @@
 import Ember from 'ember';
+import ENV from '../config/environment'
 
 export default Ember.Service.extend({
   token: null,
   loggedIn: false,
   username: null,
   userid: null,
+
   init() {
     this._super(...arguments);
-    const stored = localStorage.getItem("token");
-    if (stored === null) {
-      this.set('loggedIn', false);
+
+    const stored = localStorage.getItem('token');
+    const cont = this;
+
+    if (!stored || stored === null) {
+      this.logout();
       return;
     }
-    return sendRequest(stored, 'token').done(data => {
-      console.log(data);
-      if (data.success) {
-        this.set('token', stored);
-        this.set('loggedIn', true);
-        this.set('username', data.username);
-        this.set('userid', data.userid);
-      } else {
-        this.set('token', null);
-        this.set('loggedIn', false);
-        this.set('username', null);
-        this.set('userid', null);
+
+    function checkLogin(context, tokenVal) {
+      sendRequest(tokenVal, 'token').done(data => {
+        if (data.success === true) {
+          context.login(data, false);
+        } else {
+          context.logout(false);
+        }
+      });
+    }
+
+    window.addEventListener('storage', function (e) {
+      if (e.key === 'token') {
+        checkLogin(cont, e.newValue);
       }
-    });
+    }, false);
+
+    return checkLogin(cont, stored);
   },
-  login(data) {
+
+  login(data, notUpdate) {
     if (data.success) {
+      if (notUpdate === undefined && notUpdate !== false) {
+        localStorage.setItem('token', data.token);
+      }
       this.set('loggedIn', true);
-      this.set("token", data.token);
-      this.set("username", data.username);
-      this.set("userid", data.userid)
+      this.set('token', data.token);
+      this.set('username', data.username);
+      this.set('userid', data.userid)
     }
   },
-  tokenChanged: Ember.observer('token', function () {
-    localStorage.setItem('token', this.get('token'));
-  }),
+  logout(notUpdate) {
+    if (notUpdate === undefined && notUpdate !== false) {
+      localStorage.setItem('token', null);
+    }
+    this.set('loggedIn', false);
+    this.set('token', null);
+    this.set('username', null);
+    this.set('userid', null);
+  },
 });
 
 function sendRequest(token, action) {
-  let namespace = 'api/v1',
-    URL = [namespace, action].join('/');
+  let host = ENV.APP.HOST,
+    namespace = 'api/v1',
+    URL = [host, namespace, action].join('/');
   return Ember.$.ajax({
     method: "POST",
     url: URL,
-    async: false,
     data: {token: token},
   });
 }

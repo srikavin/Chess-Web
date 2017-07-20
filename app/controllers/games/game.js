@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../../config/environment';
 // import Chess from 'npm:chess.js';
 let board;
 // import Chess from 'chess.js';
@@ -12,14 +13,11 @@ export default Ember.Controller.extend({
     const chess = Chess();
     console.log("model", this.get('model'));
     Ember.run.schedule('afterRender', this, function () {
-      const socket = new WebSocket("ws://" + window.location.hostname + "/game/" + this.get('game_id'));
+      const socket = new WebSocket("ws://" + ENV.APP.HOSTNAME + "/game/" + this.get('game_id'));
       window.test = socket;
       socket.onmessage = onUpdate;
       socket.onopen = function () {
         socket.send(JSON.stringify({request: 'update'}));
-        setInterval(function () {
-          socket.send(JSON.stringify({request: 'submit', source: "a2", end: "b5", token: auth.get('token')}));
-        }, 10);
       };
 
       board = new ChessBoard('board', {
