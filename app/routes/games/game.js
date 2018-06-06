@@ -1,15 +1,16 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import {inject as service} from '@ember/service';
 
-export default Ember.Route.extend({
-  auth: Ember.inject.service('auth'),
+export default Route.extend({
+  auth: service('auth'),
   model(params) {
     if (!this.get('auth').get('loggedIn')) {
       this.transitionTo('login', {queryParams: {after: 'games.game', params: JSON.stringify(params)}});
     }
+    console.log(typeof params);
+    console.log(params);
+    return {
+      'game_id': params.game_id
+    }
   },
-
-  setupController(controller, model) {
-    this._super(...arguments);
-    controller.set('game_id', this.get('game_id'))
-  }
 });

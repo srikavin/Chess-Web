@@ -1,10 +1,1 @@
-{{#if white-side-present}}
-  <img src="{{white-side-image}}" height="64" width="64"/>
-  <div id="white-side-user">{{white-side-username}}</div>
-{{else}}
-  <div class="loader-not-centered" style="height: 64px; width: 64px;"></div>
-  <span id="white-side-user">Waiting for user</span>
-  <!--<img class="loader-not-centered" src="" height="64" width="64">-->
-{{/if}}
-<div id="board" style="width: 45%;"></div>
-<div>{{fen}}</div>
+{{game-view model.game_id}}

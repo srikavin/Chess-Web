@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import {inject as service} from '@ember/service';
+import {get} from '@ember/object';
 import {task} from 'ember-concurrency';
 import ENV from '../config/environment'
 
-const {get} = Ember;
-
-export default Ember.Route.extend({
-  auth: Ember.inject.service('auth'),
+export default Route.extend({
+  auth: service('auth'),
   model(params) {
     return this.get('store').findRecord('user', params.user_id);
   },

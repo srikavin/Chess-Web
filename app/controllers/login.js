@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import {inject as service} from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   queryParams: ['after', 'params'],
-  auth: Ember.inject.service('auth'),
+  auth: service('auth'),
   after: undefined,
   params: undefined,
 
@@ -45,7 +47,7 @@ function sendRequest(self, user, pass, action) {
   let host = self.store.adapterFor('application').get('host'),
     namespace = self.store.adapterFor('application').namespace,
     URL = [host, namespace, 'auth'].join('/');
-  return Ember.$.ajax({
+  return $.ajax({
     method: 'POST',
     url: URL,
     data: {request: action, username: user, password: pass}

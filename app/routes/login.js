@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import {inject as service} from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  auth: Ember.inject.service('auth'),
+export default Route.extend({
+  auth: service('auth'),
   beforeModel() {
     this.set('user', '');
     this.set('pass', '');

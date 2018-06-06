@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Service from '@ember/service';
+import $ from 'jquery';
 import ENV from '../config/environment'
 
-export default Ember.Service.extend({
+export default Service.extend({
   token: null,
   loggedIn: false,
   username: null,
@@ -63,7 +64,7 @@ function sendRequest(token, action) {
   let host = ENV.APP.HOST,
     namespace = 'api/v1',
     URL = [host, namespace, action].join('/');
-  return Ember.$.ajax({
+  return $.ajax({
     method: "POST",
     url: URL,
     data: {token: token},

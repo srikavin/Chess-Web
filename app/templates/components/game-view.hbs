@@ -1,0 +1,10 @@
+{{#if white}}
+  <img src="{{white.imageUrl}}" height="64" width="64"/>
+  <span id="white-side-user">{{white.username}}</span>
+{{else}}
+  <div class="loader-not-centered" style="height: 64px; width: 64px;"></div>
+  <span id="white-side-user">Waiting for user</span>
+  <!--<img class="loader-not-centered" src="" height="64" width="64">-->
+{{/if}}
+<div id="board" style="width: 45%;"></div>
+<div>{{fen}}</div>

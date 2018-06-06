@@ -1,5 +1,6 @@
-import Ember from 'ember';
+import {inject as service} from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  auth: Ember.inject.service('auth')
+export default Controller.extend({
+  auth: service('auth')
 });

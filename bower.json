@@ -1,8 +1,0 @@
-{
-  "name": "chess",
-  "dependencies": {
-    "chessboardjs": "chessboard.js#v0.3.2",
-    "chess.js": "^0.10.2",
-    "particles.js": "^2.0.0"
-  }
-}
