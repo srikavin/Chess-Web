@@ -32,13 +32,16 @@ export default Controller.extend({
     register() {
       const {user, pass} = this.getProperties('user', 'pass');
       sendRequest(this, user, pass, 'register').then((request) => {
-        this.setProperties({user: '', pass: ''});
-        this.set('login_failed', false);
-        this.set('register_failed', false);
-        this.transitionToRoute('user', request.id);
+        if (request.success) {
+          this.setProperties({user: '', pass: ''});
+          this.set('login_failed', false);
+          this.set('register_failed', false);
+          this.transitionToRoute('user', request.id);
+        } else {
+          this.set('login_failed', false);
+          this.set('register_failed', true);
+        }
       });
-      this.set('login_failed', false);
-      this.set('register_failed', true);
     }
   }
 });

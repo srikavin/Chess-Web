@@ -11,7 +11,6 @@ export default Component.extend({
   socket: null,
   didInsertElement() {
     this._super(...arguments);
-    console.log('ASDKAWEKAWKEAKWE');
     const socket = new WebSocket("ws://" + ENV.APP.HOSTNAME + "/game/" + this.get('game_id'));
 
     socket.onmessage = onUpdate;
