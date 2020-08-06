@@ -1,0 +1,6 @@
+.root{
+    width: 100%;
+    min-height: 50px;
+    background: #ffffff;
+    box-shadow: 0 0 0 1px rgba(16,22,26,.1), 0 0 0 transparent, 0 1px 1px rgba(16,22,26,.2);
+}

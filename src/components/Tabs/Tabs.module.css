@@ -1,0 +1,53 @@
+.tabs {
+    display: block;
+}
+
+.tabs_header {
+    font-size: 1em;
+    position: relative;
+}
+
+.tabs_header > * {
+    border: none;
+    background: none;
+    outline: none;
+
+    margin: 10px;
+    margin-left: 0;
+
+    transition: border 1s;
+    position: relative;
+
+}
+
+.tabs_header > *:hover {
+    cursor: pointer;
+}
+
+.tabs_header > *:after {
+    display: block;
+    content: '';
+
+    position: absolute;
+    width: 0;
+    right: 0;
+
+    height: 3px;
+
+    margin-top: 2px;
+    background: blue;
+
+    transition: width .2s ease;
+}
+
+.tabs_header > *:hover:after {
+    width: 100%;
+    left: 0;
+    background: blue;
+}
+
+.tabs_header > .tabs_header_selected:after {
+    width: 100%;
+    left: 0;
+    background: blue;
+}

@@ -1,0 +1,13 @@
+.container {
+
+}
+
+.chessground {
+    width: 640px;
+    height: 640px;
+}
+
+.preview {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}

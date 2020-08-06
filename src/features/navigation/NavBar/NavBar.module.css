@@ -1,0 +1,51 @@
+.navbar {
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 0 0 1px rgba(16, 22, 26, .1), 0 0 0 rgba(16, 22, 26, 0), 0 1px 1px rgba(16, 22, 26, .2);
+    background-color: white;
+    height: 50px;
+    padding: 0 15px;
+    margin-bottom: 20px;
+}
+
+.navbar.dark {
+    background-color: #333538;
+    color: white;
+}
+
+.navbar.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+.navbar .heading {
+    margin-right: 15px;
+    font-size: 1.1em;
+    white-space: nowrap;
+}
+
+.navbar .group {
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.navbar .left {
+    float: left;
+}
+
+.navbar .right {
+    float: right;
+}
+
+.navbar .divider {
+    border-left: 1px solid rgba(16, 22, 26, 0.15);
+    height: 20px;
+    margin: 0 10px;
+}
+
+.navbar.dark .divider {
+    border-left: 1px solid rgba(138, 141, 141, 0.15);
+}

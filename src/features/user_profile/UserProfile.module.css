@@ -1,0 +1,66 @@
+.container {
+    display: grid;
+
+    grid-template-areas: 'sidebar   main    main    main'
+                         'sidebar       main    main    main';
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 35px;
+}
+
+.container h1, .container h2, .container h3, .container h4 {
+    font-weight: 400;
+}
+
+.sidebar {
+    margin-top: 15px;
+    width: 100%;
+    grid-area: sidebar;
+    max-width: 280px;
+}
+
+.profile_image {
+    width: 100%;
+}
+
+.bio {
+    margin-left: 12px;
+}
+
+.lined {
+    display: flex;
+    flex-direction: row;
+}
+
+.lined:after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px solid rgba(65, 65, 65, 0.2);
+    margin: auto auto auto 5px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rating p {
+    margin: 0 0 0 10px;
+}
+
+.rating b {
+    font-weight: 400;
+    font-size: 1.1em;
+}
+
+.main_area {
+    text-align: left;
+    grid-area: main;
+}
+
+.main_area h1 {
+    margin: 0;
+}
+
+.main_area .lastSeen {
+}
