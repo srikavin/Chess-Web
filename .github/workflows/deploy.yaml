@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy GCS
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the rewrite branch
+on:
+  push:
+    branches: [ rewrite ]
+  pull_request:
+    branches: [ rewrite ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js 13.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 13.x
+    
+    - run: npm install
+    - run: npm run build
+    
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '276.0.0'
+        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+    - run: gsutil -m rsync -d -c -r public gs://chess-react
