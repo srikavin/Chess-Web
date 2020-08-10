@@ -1,7 +1,7 @@
 import {Identifier} from "../identifier";
 import axiosInstance, {_v} from "../_common";
 import {UserIdentifier} from "./users";
-import {ChessWebsocketTypes, registerType, sendWebsocketMessage} from "../websocket";
+import {ChessWebsocketTypes, sendWebsocketMessage} from "../websocket";
 
 export type ChessPosition =
     'a1' | 'b1' | 'c1' | 'd1' | 'e1' | 'f1' | 'g1' | 'h1'

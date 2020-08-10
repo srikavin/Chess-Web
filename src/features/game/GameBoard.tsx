@@ -1,13 +1,10 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../app/store";
 
-import {Chessground} from 'chessground'
-import {Api} from "chessground/api";
-
 import {ChessInstance} from "chess.js";
 import {Key} from "chessground/types";
-import {getGameAsync, selectGame, subscribeGame, endSubscribeGame} from "../play_game/gameSlice";
+import {endSubscribeGame, getGameAsync, selectGame, subscribeGame} from "../play_game/gameSlice";
 import {ChessgroundWrapper} from "./ChessgroundWrapper";
 import {ChessPosition} from "../../data/resource/games";
 import {Config} from "chessground/config";
@@ -78,7 +75,7 @@ export function GameBoard(props: GameBoardProps) {
         console.log(curMoves);
         console.log(curMoves === possibleMoves);
 
-    }, [state.isLoading, game, chess, dispatch, props.game_id, isReadOnly, setPossibleMoves])
+    }, [state.isLoading, game, chess, dispatch, props.game_id, isReadOnly, setPossibleMoves, possibleMoves])
 
     const config: Config = {
         fen: game?.currentFen ? game.currentFen : '8/8/8/8/8/8/8/8',

@@ -46,7 +46,7 @@ export function UserPreview(props: UserPreviewProps) {
     return (
         <>
             <div className={styles.user_preview + ' ' + (props.className ? props.className : '')}>
-                <img src={user.profilePicUrl}/>
+                <img src={user.profilePicUrl} alt=''/>
                 <div className={styles.content}>
                     <Popover isOpen={isPopoverOpen}
                              position={'top'} // preferred position

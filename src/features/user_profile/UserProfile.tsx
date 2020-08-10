@@ -18,14 +18,14 @@ export interface UserProfileProps {
 
 function UserProfileImage(props: { url: string | undefined }) {
     return (
-        <img className={styles.profile_image} src={props.url} alt="user profile picture"/>
+        <img className={styles.profile_image} src={props.url} alt=''/>
     )
 }
 
 function UserProfileRating(props: { name: string, rating: number, games: number }) {
     return (
         <div className={styles.rating}>
-            <img src='https://via.placeholder.com/50'/> <p><b>{props.name}</b>
+            <img src='https://via.placeholder.com/50' alt=''/> <p><b>{props.name}</b>
             <br/> {props.rating} ({props.games} games)</p>
         </div>
     )

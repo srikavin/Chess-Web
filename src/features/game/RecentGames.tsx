@@ -1,12 +1,10 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../app/store";
-import {getRecentGamesAsync, selectGame} from "../play_game/gameSlice";
-import {ChessgroundWrapper} from "./ChessgroundWrapper";
+import {getRecentGamesAsync} from "../play_game/gameSlice";
 import {Link} from "react-router-dom";
 import {GameBoard} from "./GameBoard";
 import {Game} from "../../data/resource/games";
-import {Identifier} from "../../data/identifier";
 
 import styles from './RecentGames.module.css'
 
@@ -20,8 +18,7 @@ export function GamePreview(props: GamePreviewProps) {
     return (
         <>
             <Link to={`/games/${game.id}`}>
-                <GameBoard game_id={game.id} className={styles.previewBoard}/>
-                <div></div>
+                <GameBoard game_id={game.id} className={styles.previewBoard} validateMoves={false}/>
             </Link>
         </>
     )

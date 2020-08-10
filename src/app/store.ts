@@ -1,19 +1,15 @@
 import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit';
 import gameReducer from '../features/play_game/gameSlice';
 import userProfileReducer from '../features/user_profile/userProfileSlice';
-import {
-    ChessWebsocketTypes,
-    registerType,
-    sendWebsocketMessage,
-    setupWebsocket,
-    websocketContainer
-} from "../data/websocket";
+import authReducer from '../features/auth/authSlice';
+import {ChessWebsocketTypes, registerType, setupWebsocket, websocketContainer} from "../data/websocket";
 import {chessMoveEvent} from "../data/resource/gameActions";
 
 export const store = configureStore({
     reducer: {
         user_profile: userProfileReducer,
-        game: gameReducer
+        game: gameReducer,
+        auth: authReducer
     },
 });
 

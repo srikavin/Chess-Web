@@ -2,7 +2,6 @@ import {useParams} from "react-router-dom";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getGameAsync, makeMoveAsync} from "./gameSlice";
-import {ChessgroundWrapper} from "../game/ChessgroundWrapper";
 import styles from './PlayGame.module.css';
 import {RootState} from "../../app/store";
 import {UserPreview} from "../user_profile/UserPreview";

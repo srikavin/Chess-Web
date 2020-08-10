@@ -1,5 +1,5 @@
 import {createAction, EnhancedStore} from "@reduxjs/toolkit";
-import {endpoint, endpointNoScheme, websocketEndpoint} from "./_common";
+import {websocketEndpoint} from "./_common";
 
 export const websocketDisconnect = createAction<undefined>("websocket/disconnect");
 export const websocketConnect = createAction<undefined>("websocket/connect");
