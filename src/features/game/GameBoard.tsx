@@ -71,11 +71,7 @@ export function GameBoard(props: GameBoardProps) {
         });
 
         setPossibleMoves(curMoves);
-
-        console.log(curMoves);
-        console.log(curMoves === possibleMoves);
-
-    }, [state.isLoading, game, chess, dispatch, props.game_id, isReadOnly, setPossibleMoves, possibleMoves])
+    }, [state.isLoading, game, chess, dispatch, props.game_id, isReadOnly, setPossibleMoves])
 
     const config: Config = {
         fen: game?.currentFen ? game.currentFen : '8/8/8/8/8/8/8/8',
