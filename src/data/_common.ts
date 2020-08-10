@@ -1,11 +1,8 @@
 import axios from "axios";
 
-// export const endpoint = 'http://localhost:37629/api/v1'
-export const endpointNoScheme = 'localhost:37629/api/v1'
-// export const endpointNoScheme = 'chess-glade-dev.herokuapp.com/api/v1';
+export const endpointNoScheme = (process.env.NODE_ENV === 'production' ? 'chess-glade-dev.herokuapp.com/api/v1' : 'localhost:37629/api/v1');
 export const endpoint = 'http://' + endpointNoScheme;
-export const websocketEndpoint = 'ws://' + endpointNoScheme + '/games';
-
+export const websocketEndpoint = (process.env.NODE_ENV === 'production' ? 'wss://' : 'ws://') + endpointNoScheme + '/games';
 
 const axiosInstance = axios.create({
     baseURL: endpoint,
