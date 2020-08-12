@@ -10,7 +10,7 @@ export const store = configureStore({
         user_profile: userProfileReducer,
         game: gameReducer,
         auth: authReducer
-    },
+    }
 });
 
 setupWebsocket(store, websocketContainer);

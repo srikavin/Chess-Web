@@ -13,14 +13,14 @@ const Chess = require('chess.js')
 
 type GameBoardProps = {
     game_id: string;
-    /**
-     * If onMove is not set, the board is treated as view only
-     */
+
     onMove?: (orig: ChessPosition, dest: ChessPosition, promotion: string) => void;
 
     className?: string;
 
     validateMoves: boolean;
+
+    isReadOnly: boolean;
 }
 
 const defaultProps: Partial<GameBoardProps> = {
@@ -32,7 +32,7 @@ export function GameBoard(props: GameBoardProps) {
     const game = useSelector((state: RootState) => state.game.gamesById[props.game_id]);
     const state = useSelector(selectGame);
 
-    const isReadOnly = props.onMove === undefined;
+    const isReadOnly = props.isReadOnly;
 
     const chessRef = useRef<ChessInstance>(new Chess());
 
@@ -61,7 +61,11 @@ export function GameBoard(props: GameBoardProps) {
             return;
         }
 
-        chess.load(game.currentFen);
+        if (chess.fen() !== game.currentFen) {
+            console.log(chess.fen(), game.currentFen)
+            chess.load(game.currentFen);
+        }
+
 
         const curMoves: Map<Key, Key[]> = new Map();
 
@@ -87,6 +91,8 @@ export function GameBoard(props: GameBoardProps) {
     if (!isReadOnly) {
         config.events = {
             move: (orig, dest) => {
+                chess.move({from: orig as ChessPosition, to: dest as ChessPosition})
+                console.log(chess.pgn())
                 props.onMove!(orig as ChessPosition, dest as ChessPosition, '');
             }
         }

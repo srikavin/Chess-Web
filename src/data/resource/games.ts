@@ -35,6 +35,7 @@ export interface Game {
     playerBlack: UserIdentifier;
     visibility: GameVisibility;
     status: GameStatus;
+    moves?: Array<ChessMove>;
 }
 
 export interface ChessMove {
@@ -43,9 +44,6 @@ export interface ChessMove {
     promotion?: string;
 }
 
-export interface FullGame extends Game {
-    moves: Array<ChessMove>;
-}
 
 function normalizeGame<T extends Game>(game: T): T {
     return game;
@@ -56,15 +54,18 @@ function normalizeGames<T extends Game>(games: Array<T>): Array<T> {
 }
 
 export const GameApi = {
-    async getGameById(id: GameIdentifier): Promise<FullGame> {
+    async getGameById(id: GameIdentifier): Promise<Game> {
         let req = await axiosInstance.get(_v('/games/:id', {id}));
 
         return normalizeGame(req.data);
     },
-    async getRecentGames(): Promise<Array<Game>> {
-        let req = await axiosInstance.get('/games/');
+    async getRecentGames(limit = 100, user?: UserIdentifier): Promise<Array<Game>> {
+        let req = await axiosInstance.get('/games/', {params: {limit, ...(user ? {user} : {})}});
 
         return normalizeGames(req.data);
+    },
+    async joinGame(id: GameIdentifier) {
+        sendWebsocketMessage(ChessWebsocketTypes.CLIENT_JOIN_GAME, {id})
     },
     async makeMove(id: GameIdentifier, move: ChessMove) {
         sendWebsocketMessage(ChessWebsocketTypes.CLIENT_MAKE_MOVE, {id, move});

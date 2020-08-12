@@ -68,7 +68,7 @@ export function UserProfile(props: UserProfileProps) {
 
                         <h3 className={styles.lined}>Recent Games</h3>
 
-                        <RecentGames/>
+                        <RecentGames userId={props.user_id}/>
 
                         <Tabs>
                             <Tab name={"Recent Games"}>

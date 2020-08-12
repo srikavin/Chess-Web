@@ -1,5 +1,8 @@
 .container {
-
+    display: grid;
+    grid-template-areas: "game game moves"
+                         "game game moves"
+                         "game game moves";
 }
 
 .chessground {
@@ -10,4 +13,14 @@
 .preview {
     margin-top: 16px;
     margin-bottom: 16px;
+}
+
+.game {
+    grid-area: game;
+}
+
+.moves {
+    grid-area: moves;
+    height: 65vh;
+    overflow-y: scroll;
 }

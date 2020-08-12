@@ -2,6 +2,8 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppThunk, RootState} from '../../app/store';
 import {ChessPosition, Game, GameApi, GameIdentifier} from "../../data/resource/games";
 import {chessMoveEvent} from "../../data/resource/gameActions";
+import {websocketConnect} from "../../data/websocket";
+import {UserIdentifier} from "../../data/resource/users";
 
 
 interface GameState {
@@ -60,6 +62,11 @@ export const gameSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(chessMoveEvent, (state, {payload}) => {
             state.gamesById[payload.state.id] = payload.state;
+        });
+        builder.addCase(websocketConnect, state => {
+            state.subscribed.forEach(e => {
+                GameApi.subscribeGame(e)
+            })
         })
     }
 });
@@ -74,6 +81,13 @@ export const getRecentGamesAsync = (): AppThunk => async dispatch => {
     GameApi.getRecentGames().then(e => dispatch(getGamesSuccess(e)));
 };
 
+export const getRecentGamesForUserAsync = (userId: UserIdentifier): AppThunk => async dispatch => {
+    GameApi.getRecentGames(undefined, userId).then(e => dispatch(getGamesSuccess(e)));
+};
+
+export const joinGameAsync = (game_id: GameIdentifier): AppThunk => async dispatch => {
+    await GameApi.joinGame(game_id);
+};
 
 export const makeMoveAsync = (id: string, from: ChessPosition, to: ChessPosition): AppThunk => async dispatch => {
     await GameApi.makeMove(id, {source: from, end: to});

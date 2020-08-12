@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AppThunk, RootState} from '../../app/store';
 import {AuthResponse, UserApi} from "../../data/resource/users";
 import {Identifier} from "../../data/identifier";
+import {AuthService} from "../../data/auth";
 
 interface UserProfileState {
     currentUser: Identifier | undefined;
@@ -10,9 +11,10 @@ interface UserProfileState {
     isLoading: boolean;
 }
 
+const [token, currentUser] = AuthService.getToken();
 const initialState: UserProfileState = {
-    currentUser: undefined,
-    token: undefined,
+    currentUser: currentUser,
+    token: token,
     error: undefined,
     isLoading: false
 };

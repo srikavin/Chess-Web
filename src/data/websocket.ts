@@ -1,5 +1,6 @@
 import {createAction, EnhancedStore} from "@reduxjs/toolkit";
 import {websocketEndpoint} from "./_common";
+import {AuthService} from "./auth";
 
 export const websocketDisconnect = createAction<undefined>("websocket/disconnect");
 export const websocketConnect = createAction<undefined>("websocket/connect");
@@ -18,24 +19,27 @@ type WebsocketListener = (message: any) => void;
 const listeners: Map<ChessWebsocketTypes, Array<WebsocketListener>> = new Map()
 const queue: Array<string> = [];
 
-let backOffInterval = 250;
-
+const baseBackOffInterval = 250;
+let backOffInterval = 0;
 
 const websocket = new WebSocket(websocketEndpoint);
 
 export const setupWebsocket = (store: EnhancedStore, container: { websocket: WebSocket }) => {
     let _websocket: WebSocket;
-    if (container.websocket !== websocket) {
+    if (container.websocket !== websocket || container.websocket.readyState === WebSocket.CLOSED) {
         _websocket = new WebSocket(websocketEndpoint);
         container.websocket = _websocket;
     } else {
         _websocket = websocket;
     }
 
+    console.log('opening new socket')
+
     _websocket.onclose = (e) => {
+        console.log(e.wasClean)
         if (!e.wasClean) {
-            setTimeout(() => setupWebsocket(store, container), backOffInterval);
-            console.log(backOffInterval)
+            setTimeout(() => setupWebsocket(store, container), baseBackOffInterval + backOffInterval);
+            console.log(baseBackOffInterval + backOffInterval)
             backOffInterval += 2000;
         }
         console.error(e)
@@ -49,9 +53,11 @@ export const setupWebsocket = (store: EnhancedStore, container: { websocket: Web
         queue.forEach((val) => {
             _websocket.send(val);
         })
+        queue.length = 0;
     }
 
     _websocket.onerror = () => {
+        console.log('onerror')
         // do nothing, as onclose will be called immediately afterwards
     }
 
@@ -85,10 +91,13 @@ export function registerType(type: ChessWebsocketTypes, listener: WebsocketListe
 }
 
 export function sendWebsocketMessage(type: ChessWebsocketTypes, payload: object) {
-    const str = JSON.stringify({request: type, token: "VkpCLJmaVDYi3f7D", ...payload})
+    const [token,] = AuthService.getToken();
+
+    const str = JSON.stringify({request: type, ...(token ? {token} : {}), ...payload})
     console.log('sending', str);
 
-    if (websocketContainer.websocket.readyState === websocket.CONNECTING) {
+
+    if (websocketContainer.websocket.readyState !== websocket.OPEN) {
         queue.push(str);
         return;
     }

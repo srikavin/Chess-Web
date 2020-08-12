@@ -1,5 +1,6 @@
 import {Identifier} from "../identifier";
 import axiosInstance, {_v, endpoint} from "../_common";
+import {AuthService} from "../auth";
 
 export interface User {
     id: string;
@@ -46,7 +47,11 @@ export const UserApi = {
                 return;
             }
 
-            res(normalizeAuth(req.data));
+            const ret = normalizeAuth(req.data);
+
+            AuthService.persistToken(ret.token, ret.userId);
+
+            res(ret);
         })
     },
     async login(username: string, password: string): Promise<AuthResponse> {
@@ -58,7 +63,11 @@ export const UserApi = {
                 return;
             }
 
-            res(normalizeAuth(req.data));
+            const ret = normalizeAuth(req.data);
+
+            AuthService.persistToken(ret.token, ret.userId);
+
+            res(ret);
         })
     }
 }
