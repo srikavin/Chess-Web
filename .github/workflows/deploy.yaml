@@ -16,18 +16,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Use Node.js 13.x
       uses: actions/setup-node@v1
       with:
         node-version: 13.x
-    
+
     - run: npm install
     - run: npm run build
-    
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+
+    - uses: w9jds/firebase-action@master
       with:
-        version: '276.0.0'
-        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-    - run: gsutil -m rsync -d -c -r build gs://chess-react
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
