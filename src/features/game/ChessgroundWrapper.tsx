@@ -6,12 +6,7 @@ import {Api} from "chessground/api";
 import {Config} from "chessground/config";
 import {ChessMove} from "../../data/resource/games";
 
-type ChessgroundWrapperProps = {
-    /**
-     * If onMove is not set, the board is treated as view only
-     */
-    onMove?: (orig: string, dest: string, promotion: string) => void;
-
+export type ChessgroundWrapperProps = {
     className?: string;
 
     config: Config
@@ -55,7 +50,7 @@ export class ChessgroundWrapper extends Component<ChessgroundWrapperProps, {}> {
 
     render() {
         return (
-            <div ref={this.rootRef} className={this.props.className || ''}/>
+            <div ref={this.rootRef} className={this.props.className || 'cgwrapper-container'}/>
         );
     }
 }

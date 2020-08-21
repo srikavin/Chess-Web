@@ -10,7 +10,10 @@ export enum ChessWebsocketTypes {
     CLIENT_GAME_LISTEN = "listen",
     CLIENT_GAME_STOP_LISTEN = "stop_listen",
     CLIENT_JOIN_GAME = "join_game",
+    CLIENT_REQUEST_CLOCK_SYNC = "request_clock_sync",
     SERVER_PLAYER_MOVE = "player_move",
+    SERVER_PLAYER_JOIN = "player_join",
+    SERVER_CLOCK_SYNC = "clock_sync",
     UPDATE = "update"
 }
 

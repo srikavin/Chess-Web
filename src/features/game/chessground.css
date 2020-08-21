@@ -5,9 +5,14 @@
  * board and pieces displayed!
  */
 
+.cgwrapper-container {
+    width: 640px;
+    height: 640px;
+}
+
 .cg-wrap {
-    width: 100%;
-    height: auto;
+    /*width: 100%;*/
+    /*height: auto;*/
     position: relative;
     display: block;
 }

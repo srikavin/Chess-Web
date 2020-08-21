@@ -5,6 +5,8 @@
                          'sidebar       main    main    main';
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 35px;
+
+    position: relative;
 }
 
 .container h1, .container h2, .container h3, .container h4 {

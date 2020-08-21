@@ -3,7 +3,13 @@ import gameReducer from '../features/play_game/gameSlice';
 import userProfileReducer from '../features/user_profile/userProfileSlice';
 import authReducer from '../features/auth/authSlice';
 import {ChessWebsocketTypes, registerType, setupWebsocket, websocketContainer} from "../data/websocket";
-import {chessMoveEvent} from "../data/resource/gameActions";
+import {
+    chessClockSync,
+    chessJoinEvent,
+    chessJoinEventError,
+    chessMoveEvent,
+    chessMoveEventError
+} from "../data/resource/gameActions";
 
 export const store = configureStore({
     reducer: {
@@ -22,7 +28,27 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
     Action<string>>;
 
 registerType(ChessWebsocketTypes.SERVER_PLAYER_MOVE, (data: any) => {
-    console.log(data);
+    if (data.error) {
+        store.dispatch(chessMoveEventError(data));
+        return;
+    }
     store.dispatch(chessMoveEvent(data));
 });
 
+registerType(ChessWebsocketTypes.SERVER_PLAYER_JOIN, (data: any) => {
+    if (data.error) {
+        store.dispatch(chessJoinEventError(data));
+        return;
+    }
+    store.dispatch(chessJoinEvent(data));
+});
+
+registerType(ChessWebsocketTypes.SERVER_CLOCK_SYNC, (data: any) => {
+    if (data.clock) {
+        data.clock.whiteTimeLeft = data.clock.whiteTimeDeciSeconds * 100;
+        data.clock.blackTimeLeft = data.clock.blackTimeDeciSeconds * 100;
+        data.clock.lastMoveTime = data.clock.lastMoveTimeEpochMillis;
+        data.clock.referenceTime = Date.now();
+    }
+    store.dispatch(chessClockSync(data));
+})

@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 
 let cx = classNames.bind(styles);
 
-interface ButtonProps {
+export interface ButtonProps {
     children: ReactNode;
     minimal?: boolean;
     onClick: () => void;

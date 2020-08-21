@@ -5,7 +5,7 @@ import styles from './Authentication.module.css'
 import {Loader} from "../../components/Loader/Loader";
 import {loginAsync, registerAsync, selectAuth} from "./authSlice";
 
-interface AuthenticationCommonProps {
+export interface AuthenticationCommonProps {
     type: string;
     error: string | undefined;
     onSubmit: (username: string, password: string) => void;
@@ -20,7 +20,7 @@ export function AuthenticationCommon(props: AuthenticationCommonProps) {
         return (
             <div className={styles.authContainer}>
                 <h1>{props.type}</h1>
-                <Loader/>
+                <Loader size='medium'/>
             </div>
         )
     }
@@ -36,7 +36,7 @@ export function AuthenticationCommon(props: AuthenticationCommonProps) {
                 <br/>
 
                 <label htmlFor='password'>Password</label>
-                <input type='password' name='username' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <input type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
 
                 <br/>
 

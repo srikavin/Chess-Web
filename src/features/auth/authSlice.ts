@@ -4,7 +4,7 @@ import {AuthResponse, UserApi} from "../../data/resource/users";
 import {Identifier} from "../../data/identifier";
 import {AuthService} from "../../data/auth";
 
-interface UserProfileState {
+export interface UserProfileState {
     currentUser: Identifier | undefined;
     token: string | undefined;
     error: string | undefined;
@@ -47,7 +47,7 @@ export const {authFailure, authStart, authSuccess} = authSlice.actions;
 
 export const registerAsync = (username: string, password: string): AppThunk => async dispatch => {
     dispatch(authStart());
-    UserApi.register(username, password)
+    await UserApi.register(username, password)
         .then(response => dispatch(authSuccess(response)))
         .catch(reason => dispatch(authFailure(reason)));
 };
@@ -55,7 +55,7 @@ export const registerAsync = (username: string, password: string): AppThunk => a
 
 export const loginAsync = (username: string, password: string): AppThunk => async dispatch => {
     dispatch(authStart());
-    UserApi.login(username, password)
+    await UserApi.login(username, password)
         .then(response => dispatch(authSuccess(response)))
         .catch(reason => dispatch(authFailure(reason)));
 };

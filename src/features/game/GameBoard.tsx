@@ -1,17 +1,12 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../app/store";
-
-import {ChessInstance} from "chess.js";
-import {Key} from "chessground/types";
-import {endSubscribeGame, getGameAsync, selectGame, subscribeGame} from "../play_game/gameSlice";
+import {endSubscribeGame, getGameAsync, selectGame, selectValidMoves, subscribeGame} from "../play_game/gameSlice";
 import {ChessgroundWrapper} from "./ChessgroundWrapper";
 import {ChessPosition} from "../../data/resource/games";
 import {Config} from "chessground/config";
 
-const Chess = require('chess.js')
-
-type GameBoardProps = {
+export type GameBoardProps = {
     game_id: string;
 
     onMove?: (orig: ChessPosition, dest: ChessPosition, promotion: string) => void;
@@ -21,6 +16,10 @@ type GameBoardProps = {
     validateMoves: boolean;
 
     isReadOnly: boolean;
+
+    allowMoves: boolean;
+
+    orientation: 'white' | 'black';
 }
 
 const defaultProps: Partial<GameBoardProps> = {
@@ -34,11 +33,7 @@ export function GameBoard(props: GameBoardProps) {
 
     const isReadOnly = props.isReadOnly;
 
-    const chessRef = useRef<ChessInstance>(new Chess());
-
-    const [possibleMoves, setPossibleMoves] = useState(new Map<Key, Key[]>());
-
-    const chess = chessRef.current;
+    const possibleMoves = useSelector(selectValidMoves)[props.game_id];
 
     useEffect(() => {
         dispatch(subscribeGame(props.game_id));
@@ -54,28 +49,8 @@ export function GameBoard(props: GameBoardProps) {
 
         if (!game) {
             dispatch(getGameAsync(props.game_id));
-            return
         }
-
-        if (isReadOnly) {
-            return;
-        }
-
-        if (chess.fen() !== game.currentFen) {
-            console.log(chess.fen(), game.currentFen)
-            chess.load(game.currentFen);
-        }
-
-
-        const curMoves: Map<Key, Key[]> = new Map();
-
-        chess.moves({verbose: true}).forEach((e) => {
-            const arr = curMoves.get(e.from) || [];
-            curMoves.set(e.from, arr.concat(e.to));
-        });
-
-        setPossibleMoves(curMoves);
-    }, [state.isLoading, game, chess, dispatch, props.game_id, isReadOnly, setPossibleMoves])
+    }, [state.isLoading, game, dispatch, props.game_id])
 
     const config: Config = {
         fen: game?.currentFen ? game.currentFen : '8/8/8/8/8/8/8/8',
@@ -86,20 +61,32 @@ export function GameBoard(props: GameBoardProps) {
             showDests: true,
             dests: possibleMoves
         },
+        orientation: props.orientation,
+        draggable: {
+            enabled: props.allowMoves
+        }
     }
 
     if (!isReadOnly) {
         config.events = {
             move: (orig, dest) => {
-                chess.move({from: orig as ChessPosition, to: dest as ChessPosition})
-                console.log(chess.pgn())
                 props.onMove!(orig as ChessPosition, dest as ChessPosition, '');
             }
         }
     }
-    config.movable!.dests = possibleMoves;
 
-    console.log(config.movable)
+    if (props.allowMoves) {
+        config.movable!.dests = possibleMoves;
+    } else {
+        config.movable!.dests = undefined;
+    }
+
+    if (game.moves && game.moves.length >= 1) {
+        const lastMove = game.moves[game.moves.length - 1];
+        config.lastMove = [lastMove.source, lastMove.end];
+    }
+
+    console.log(config)
 
     return (
         <>

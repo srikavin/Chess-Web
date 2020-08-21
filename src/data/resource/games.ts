@@ -2,6 +2,7 @@ import {Identifier} from "../identifier";
 import axiosInstance, {_v} from "../_common";
 import {UserIdentifier} from "./users";
 import {ChessWebsocketTypes, sendWebsocketMessage} from "../websocket";
+import {PieceType} from "chess.js";
 
 export type ChessPosition =
     'a1' | 'b1' | 'c1' | 'd1' | 'e1' | 'f1' | 'g1' | 'h1'
@@ -16,6 +17,11 @@ export type ChessPosition =
 export enum GameVisibility {
     PUBLIC = "PUBLIC",
     UNLISTED = "UNLISTED",
+}
+
+export enum PlayerColor {
+    WHITE = "WHITE",
+    BLACK = "BLACK"
 }
 
 export enum GameStatus {
@@ -36,12 +42,27 @@ export interface Game {
     visibility: GameVisibility;
     status: GameStatus;
     moves?: Array<ChessMove>;
+    clock?: ChessClock
+}
+
+export interface ChessClock {
+    whiteTimeLeft: number;
+    blackTimeLeft: number;
+    /**
+     * Epoch time
+     */
+    lastMoveTime: number;
+    /**
+     * Epoch time
+     */
+    referenceTime: number;
+    currentActive: PlayerColor;
 }
 
 export interface ChessMove {
     source: ChessPosition;
     end: ChessPosition;
-    promotion?: string;
+    promotion?: Exclude<PieceType, 'p'>;
 }
 
 
@@ -69,6 +90,9 @@ export const GameApi = {
     },
     async makeMove(id: GameIdentifier, move: ChessMove) {
         sendWebsocketMessage(ChessWebsocketTypes.CLIENT_MAKE_MOVE, {id, move});
+    },
+    async syncClock(id: GameIdentifier) {
+        sendWebsocketMessage(ChessWebsocketTypes.CLIENT_REQUEST_CLOCK_SYNC, {id});
     },
     subscribeGame(id: GameIdentifier) {
         sendWebsocketMessage(ChessWebsocketTypes.CLIENT_GAME_LISTEN, {id});

@@ -1,5 +1,5 @@
 .App {
-  position: relative;
-  width: 70%;
-  left: calc(50% - 35%);
+    max-width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
 }

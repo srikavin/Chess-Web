@@ -1,26 +1,107 @@
-.container {
-    display: grid;
-    grid-template-areas: "game game moves"
-                         "game game moves"
-                         "game game moves";
-}
-
 .chessground {
     width: 640px;
     height: 640px;
 }
 
+.container {
+    display: grid;
+    grid-template-areas: "user_one clock_one"
+                         "game moves"
+                         "game moves"
+                         "user_two clock_two";
+    max-width: min(900px, 70vw);
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-columns: 3fr 2fr;
+}
+
+@media screen and (max-width: 1400px) {
+    .container {
+        grid-template-areas: "user_one"
+                         "game"
+                         "user_two"
+                         "moves";
+        grid-template-columns: auto;
+        width: 70vmin;
+        height: 70vmin;
+    }
+
+    .chessground {
+        width: 70vmin;
+        height: 70vmin;
+    }
+}
+
+.player {
+    display: grid;
+    grid-template-areas: "preview clock";
+    margin-right: 32px;
+}
+
+.playerOne {
+    grid-area: user_one;
+}
+
+.playerTwo {
+    grid-area: user_two;
+}
+
+.clock {
+    grid-area: clock;
+    align-self: center;
+    justify-self: right;
+}
+
 .preview {
     margin-top: 16px;
     margin-bottom: 16px;
+    grid-area: preview;
 }
 
 .game {
     grid-area: game;
+    position: relative;;
+    margin-right: 32px;
+    width: 70vmin;
+    height: 70vmin;
+}
+
+.game_overlay {
+    position: absolute;
+    top: calc(50% - 60px);
+    left: calc(50% - 160px);
+    z-index: 5;
+    width: 320px;
+    height: 120px;
+    background: white;
+    opacity: 0.85;
+    border-radius: 4px;
+    text-align: center;
 }
 
 .moves {
     grid-area: moves;
-    height: 65vh;
-    overflow-y: scroll;
+    height: 70vmin;
+    padding-left: 16px;
+    overflow-y: auto;
+    width: 150px;
+}
+
+.move {
+    display: grid;
+    grid-template-areas: "start separator end";
+    text-align: center;
+    margin: 4px auto;
+}
+
+.move_start {
+    grid-area: start;
+}
+
+.move_separator {
+    grid-area: separator;
+}
+
+.move_end {
+    grid-area: end;
 }
