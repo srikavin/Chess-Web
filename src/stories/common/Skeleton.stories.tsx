@@ -1,7 +1,7 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {ChessgroundWrapperProps} from "../features/game/ChessgroundWrapper";
-import {Skeleton} from "../components/Skeleton/Skeleton";
+import {ChessgroundWrapperProps} from "../../features/game/ChessgroundWrapper";
+import {Skeleton} from "../../components/Skeleton/Skeleton";
 
 export default {
     title: 'Chess/Common/Skeleton',

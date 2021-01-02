@@ -120,11 +120,11 @@ export const getRecentGamesAsync = (): AppThunk => async dispatch => {
     GameApi.getRecentGames().then(e => dispatch(getGamesSuccess(e)));
 };
 
-export const getRecentGamesForUserAsync = (userId: UserIdentifier): AppThunk => async (dispatch, getState) => {
+export const getRecentGamesForUserAsync = (userId: UserIdentifier): AppThunk => async dispatch => {
     GameApi.getRecentGames(undefined, userId).then(e => dispatch(getGamesSuccess(e)));
 };
 
-export const joinGameAsync = (game_id: GameIdentifier): AppThunk => async dispatch => {
+export const joinGameAsync = (game_id: GameIdentifier): AppThunk => async () => {
     await GameApi.joinGame(game_id);
 };
 
@@ -133,13 +133,17 @@ export const makeMoveAsync = (id: string, from: ChessPosition, to: ChessPosition
     await GameApi.makeMove(id, {source: from, end: to, promotion: promotion});
 };
 
-export const requestClockSync = (id: string): AppThunk => async dispatch => {
+export const createGameAsync = (): AppThunk => async () => {
+    await GameApi.createAndJoinGame();
+}
+
+export const requestClockSync = (id: string): AppThunk => async () => {
     await GameApi.syncClock(id);
 };
 
-export const selectGame = (state: RootState) => state.game;
+export const selectGames = (state: RootState) => state.game;
 
-export const selectValidMoves = createSelector([selectGame], (state: GameState) => {
+export const selectValidMoves = createSelector([selectGames], (state: GameState) => {
     const chess: ChessInstance = new Chess();
     const ret: Record<string, Map<Key, Key[]>> = {};
 
@@ -150,7 +154,11 @@ export const selectValidMoves = createSelector([selectGame], (state: GameState) 
 
         const curMoves: Map<Key, Key[]> = new Map();
 
-        chess.load(game.currentFen);
+        if (!chess.load(game.currentFen)) {
+            console.error("Failed to load fen ", game.currentFen, chess.validate_fen(game.currentFen));
+            ret[id] = curMoves;
+            return;
+        }
 
         chess.moves({verbose: true}).forEach((e) => {
             const arr = curMoves.get(e.from) || [];

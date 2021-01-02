@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../app/store";
-import {endSubscribeGame, getGameAsync, selectGame, selectValidMoves, subscribeGame} from "../play_game/gameSlice";
+import {endSubscribeGame, getGameAsync, selectGames, selectValidMoves, subscribeGame} from "../play_game/gameSlice";
 import {ChessgroundWrapper} from "./ChessgroundWrapper";
 import {ChessPosition} from "../../data/resource/games";
 import {Config} from "chessground/config";
@@ -29,7 +29,7 @@ const defaultProps: Partial<GameBoardProps> = {
 export function GameBoard(props: GameBoardProps) {
     const dispatch = useDispatch();
     const game = useSelector((state: RootState) => state.game.gamesById[props.game_id]);
-    const state = useSelector(selectGame);
+    const state = useSelector(selectGames);
 
     const isReadOnly = props.isReadOnly;
 
@@ -64,7 +64,8 @@ export function GameBoard(props: GameBoardProps) {
         orientation: props.orientation,
         draggable: {
             enabled: props.allowMoves
-        }
+        },
+        // coordinates: false
     }
 
     if (!isReadOnly) {
@@ -81,7 +82,7 @@ export function GameBoard(props: GameBoardProps) {
         config.movable!.dests = undefined;
     }
 
-    if (game.moves && game.moves.length >= 1) {
+    if (game?.moves && game.moves.length >= 1) {
         const lastMove = game.moves[game.moves.length - 1];
         config.lastMove = [lastMove.source, lastMove.end];
     }

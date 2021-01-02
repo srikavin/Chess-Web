@@ -1,23 +1,33 @@
-import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit';
+import {Action, configureStore, getDefaultMiddleware, ThunkAction} from '@reduxjs/toolkit';
+import {connectRouter, push, routerMiddleware} from 'connected-react-router';
+import {createBrowserHistory} from 'history'
 import gameReducer from '../features/play_game/gameSlice';
 import userProfileReducer from '../features/user_profile/userProfileSlice';
 import authReducer from '../features/auth/authSlice';
 import {ChessWebsocketTypes, registerType, setupWebsocket, websocketContainer} from "../data/websocket";
 import {
     chessClockSync,
+    chessGameCreateEvent,
+    chessGameCreateEventError,
     chessJoinEvent,
     chessJoinEventError,
     chessMoveEvent,
     chessMoveEventError
 } from "../data/resource/gameActions";
 
+export const history = createBrowserHistory();
+
 export const store = configureStore({
+    middleware: getDefaultMiddleware().concat(routerMiddleware(history) as any),
     reducer: {
+        router: connectRouter(history) as any,
         user_profile: userProfileReducer,
         game: gameReducer,
         auth: authReducer
     }
 });
+
+console.log(store)
 
 setupWebsocket(store, websocketContainer);
 
@@ -33,6 +43,15 @@ registerType(ChessWebsocketTypes.SERVER_PLAYER_MOVE, (data: any) => {
         return;
     }
     store.dispatch(chessMoveEvent(data));
+});
+
+registerType(ChessWebsocketTypes.SERVER_CREATE_GAME, (data: any) => {
+    if (data.error) {
+        store.dispatch(chessGameCreateEventError(data));
+        return;
+    }
+    store.dispatch(chessGameCreateEvent(data));
+    store.dispatch(push(`/games/${data.game_id}`))
 });
 
 registerType(ChessWebsocketTypes.SERVER_PLAYER_JOIN, (data: any) => {

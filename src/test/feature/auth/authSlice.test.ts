@@ -27,7 +27,7 @@ describe('loginThunk', () => {
     });
 
     it('should dispatch a authFailure on failure', async () => {
-        MockUserApi.login.mockRejectedValue('request error')
+        MockUserApi.login.mockRejectedValue(new Error('request error'))
 
         const dispatch = jest.fn();
         const getState = jest.fn();
@@ -53,7 +53,7 @@ describe('registerThunk', () => {
     });
 
     it('should dispatch a authFailure on failure', async () => {
-        MockUserApi.register.mockRejectedValue('request error')
+        MockUserApi.register.mockRejectedValue(new Error('request error'))
 
         const dispatch = jest.fn();
         const getState = jest.fn();

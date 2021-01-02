@@ -1,9 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {RootState} from "../../app/store";
 import {getUserAsync} from "./userProfileSlice";
 import styles from "./UserPreview.module.css";
-import Popover from "react-tiny-popover";
 import {UserIdentifier} from "../../data/resource/users";
 import {Loader} from "../../components/Loader/Loader";
 import {Skeleton} from "../../components/Skeleton/Skeleton";
@@ -11,18 +10,6 @@ import {Skeleton} from "../../components/Skeleton/Skeleton";
 export interface UserPreviewProps {
     user_id: string;
     className?: string;
-}
-
-export interface UserPreviewPopoverProps {
-    bio: string;
-}
-
-function UserPreviewPopover(props: UserPreviewPopoverProps) {
-    return (
-        <>
-            {props.bio}
-        </>
-    )
 }
 
 export type PureUserPreviewProps = {
@@ -38,8 +25,6 @@ export type PureUserPreviewProps = {
 }
 
 export function PureUserPreview(props: PureUserPreviewProps) {
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
     if (props.loading) {
         return (
             <>
@@ -47,10 +32,7 @@ export function PureUserPreview(props: PureUserPreviewProps) {
                     <Loader size='medium'/>
                     <div className={styles.content}>
                         <Skeleton>
-                            Loading Loading...
-                        </Skeleton>
-                        <Skeleton>
-                            (rating)
+                            Loading Loading
                         </Skeleton>
                     </div>
                 </div>
@@ -63,15 +45,11 @@ export function PureUserPreview(props: PureUserPreviewProps) {
             <div className={styles.user_preview + ' ' + (props.className ? props.className : '')}>
                 <img src={props.profilePicUrl} alt=''/>
                 <div className={styles.content}>
-                    <Popover isOpen={isPopoverOpen}
-                             position='top'
-                             content={<UserPreviewPopover bio={props.bio}/>}>
-                        <div onMouseEnter={() => setIsPopoverOpen(true)} onMouseLeave={() => setIsPopoverOpen(false)}>
-                            <a href={`/users/${props.user_id}`}>
-                                {props.username} <span className={styles.rating}>(1280)</span>
-                            </a>
-                        </div>
-                    </Popover>
+                    <div>
+                        <a href={`/users/${props.user_id}`}>
+                            {props.username} <span className={styles.rating}>(1280)</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </>
@@ -84,7 +62,7 @@ export function UserPreview(props: UserPreviewProps) {
     const user = useSelector((state: RootState) => state.user_profile.usersById[props.user_id])
 
     useEffect(() => {
-        if (!user) {
+        if (!user && props.user_id) {
             dispatch(getUserAsync(props.user_id))
         }
     }, [props.user_id, user, dispatch])

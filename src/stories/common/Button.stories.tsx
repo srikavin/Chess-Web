@@ -1,7 +1,7 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {Loader} from "../components/Loader/Loader";
-import {Button, ButtonProps} from "../components/Button/Button";
+import {Loader} from "../../components/Loader/Loader";
+import {Button, ButtonProps} from "../../components/Button/Button";
 
 export default {
     title: 'Chess/Common/Button',

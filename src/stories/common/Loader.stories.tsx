@@ -1,6 +1,6 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react/types-6-0';
-import {Loader, LoaderProps} from "../components/Loader/Loader";
+import {Loader, LoaderProps} from "../../components/Loader/Loader";
 
 export default {
     title: 'Chess/Common/Loader',

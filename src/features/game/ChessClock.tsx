@@ -26,7 +26,7 @@ export function PureClock(props: PureClockProps) {
             <span>{minutes.toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping: false})}</span>
             <span>{seconds.toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping: false})}</span>
             {hours === 0 && minutes < 5 ? (
-                <span>{deciSeconds.toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping: false})}</span>
+                <span>{deciSeconds.toLocaleString(undefined, {minimumIntegerDigits: 1, useGrouping: false})}</span>
             ) : null}
         </div>
     );
@@ -52,7 +52,7 @@ export function Clock(props: ClockProps) {
                 return;
             }
             setTimeLeft((props.endTimeEpoch - Date.now()));
-        }, 100);
+        }, 50);
 
         return () => {
             window.clearInterval(timeoutId);

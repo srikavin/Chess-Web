@@ -9,6 +9,8 @@ import {GameBoard} from "../game/GameBoard";
 import {selectAuth} from "../auth/authSlice";
 import {GameStatus, PlayerColor} from "../../data/resource/games";
 import {Clock} from "../game/ChessClock";
+import {Loader} from "../../components/Loader/Loader";
+import {Button} from "../../components/Button/Button";
 
 export function PlayGame(props: { game_id: string }) {
     const dispatch = useDispatch();
@@ -30,7 +32,7 @@ export function PlayGame(props: { game_id: string }) {
     }, [dispatch, props.game_id])
 
     if (!game) {
-        return <>loading</>;
+        return <><Loader size="small"/> loading</>;
     }
 
     const isInGame = auth.currentUser !== undefined && (auth.currentUser === game.playerWhite || auth.currentUser === game.playerBlack)
@@ -52,11 +54,11 @@ export function PlayGame(props: { game_id: string }) {
         onMove = undefined;
     }
 
-    let canJoin = false;
-    if ((auth.currentUser !== undefined) && (game.playerBlack === undefined || game.playerWhite === undefined)) {
-        // game has open slots and user is logged in
-        canJoin = true;
-    }
+    // game has open slots
+    let waitingForPlayers = (game.playerBlack === undefined || game.playerWhite === undefined);
+
+    // game has open slots and user is logged in
+    let canJoin = (auth.currentUser !== undefined) && waitingForPlayers && !isInGame;
 
     const orientation = isInGame ? (auth.currentUser === game.playerWhite ? 'white' : 'black') : 'white';
 
@@ -95,10 +97,16 @@ export function PlayGame(props: { game_id: string }) {
                 </div>
             </div>
             <div className={styles.game}>
-                {canJoin ? (
-                    <div className={styles.game_overlay}>
-                        <h2>Waiting for Players</h2>
-                        <button onClick={() => dispatch(joinGameAsync(game.id))}>Join</button>
+                {waitingForPlayers ? (
+                    <div className="absolute h-full w-full flex items-center justify-center z-10">
+                        <div className="px-8 py-6 bg-white border-solid border border-blue-400 rounded shadow-md">
+                            <h3 className="text-lg font-bold animate-bounce">Waiting for Players</h3>
+                            {canJoin ? (
+                                <div className={`mx-auto mt-2 text-center ${!canJoin ? "disabled" : ""}`}>
+                                    <Button onClick={() => dispatch(joinGameAsync(game.id))}>Join Now</Button>
+                                </div>
+                            ) : null}
+                        </div>
                     </div>
                 ) : null}
                 <GameBoard game_id={game.id} className={styles.chessground} onMove={onMove} validateMoves={true}
@@ -129,7 +137,7 @@ export function PlayGame(props: { game_id: string }) {
 }
 
 export function PlayGameRoute() {
-    let {id} = useParams();
+    let {id} = useParams<Record<string, string>>();
     return (
         <PlayGame game_id={id}/>
     )

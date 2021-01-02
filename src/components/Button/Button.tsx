@@ -11,6 +11,7 @@ export interface ButtonProps {
     minimal?: boolean;
     onClick: () => void;
     icon?: ReactNode;
+    className?: string;
 }
 
 export function Button(props: ButtonProps) {
@@ -18,7 +19,7 @@ export function Button(props: ButtonProps) {
         button: true,
         minimal: props.minimal,
         hasIcon: props.icon
-    });
+    }, props.className);
 
     return (
         <button className={btnClass} type="button" onClick={() => props.onClick()}>

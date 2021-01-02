@@ -19,21 +19,19 @@ const initialState: UserProfileState = {
     isLoading: false
 };
 
-const startLoading = (state: UserProfileState) => {
-    state.isLoading = true;
-}
-
-const requestError = (state: UserProfileState, action: PayloadAction<string>) => {
-    state.isLoading = false
-    state.error = action.payload;
-}
-
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        authStart: startLoading,
-        authFailure: requestError,
+        authStart: (state: UserProfileState) => {
+            state.isLoading = true;
+            state.error = undefined;
+        },
+        authFailure: (state: UserProfileState, action: PayloadAction<string | undefined>) => {
+            state.isLoading = false
+            state.error = action.payload;
+        }
+        ,
         authSuccess: (state, {payload}: PayloadAction<AuthResponse>) => {
             state.token = payload.token;
             state.currentUser = payload.userId;
@@ -49,7 +47,7 @@ export const registerAsync = (username: string, password: string): AppThunk => a
     dispatch(authStart());
     await UserApi.register(username, password)
         .then(response => dispatch(authSuccess(response)))
-        .catch(reason => dispatch(authFailure(reason)));
+        .catch((error: Error) => dispatch(authFailure(error.message)));
 };
 
 
@@ -57,7 +55,7 @@ export const loginAsync = (username: string, password: string): AppThunk => asyn
     dispatch(authStart());
     await UserApi.login(username, password)
         .then(response => dispatch(authSuccess(response)))
-        .catch(reason => dispatch(authFailure(reason)));
+        .catch((error: Error) => dispatch(authFailure(error.message)));
 };
 
 export const selectAuth = (state: RootState) => state.auth;

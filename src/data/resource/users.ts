@@ -39,36 +39,30 @@ export const UserApi = {
         return normalizeUser(req.data);
     },
     async register(username: string, password: string): Promise<AuthResponse> {
-        return new Promise(async (res, rej) => {
-            let req = await axiosInstance.post('/auth', {username, password, request: 'register'});
+        let req = await axiosInstance.post('/auth', {username, password, request: 'register'});
 
-            if (req.data.error) {
-                rej(req.data.error);
-                return;
-            }
+        if (req.data.error) {
+            throw new Error(req.data.error);
+        }
 
-            const ret = normalizeAuth(req.data);
+        const ret = normalizeAuth(req.data);
 
-            AuthService.persistToken(ret.token, ret.userId);
+        AuthService.persistToken(ret.token, ret.userId);
 
-            res(ret);
-        })
+        return ret;
     },
     async login(username: string, password: string): Promise<AuthResponse> {
-        return new Promise(async (res, rej) => {
-            let req = await axiosInstance.post('/auth', {username, password, request: 'login'});
+        let req = await axiosInstance.post('/auth', {username, password, request: 'login'});
 
-            if (req.data.error) {
-                rej(req.data.error);
-                return;
-            }
+        if (req.data.error) {
+            throw new Error(req.data.error);
+        }
 
-            const ret = normalizeAuth(req.data);
+        const ret = normalizeAuth(req.data);
 
-            AuthService.persistToken(ret.token, ret.userId);
+        AuthService.persistToken(ret.token, ret.userId);
 
-            res(ret);
-        })
+        return ret;
     }
 }
 

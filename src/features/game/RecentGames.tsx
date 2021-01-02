@@ -17,11 +17,32 @@ export function GamePreview(props: GamePreviewProps) {
     const game = props.game;
 
     return (
-        <>
+        <div
+            className="border-solid border rounder border-black bg-gradient-to-b from-green-100 via-green-50 to-green-100 rounded">
             <Link to={`/games/${game.id}`}>
-                <GameBoard game_id={game.id} className={styles.previewBoard} validateMoves={false} isReadOnly={true}/>
+                <div className="flex gap-4">
+                    <div className="w-60 h-60">
+                        <GameBoard game_id={game.id} className={styles.previewBoard} validateMoves={false}
+                                   allowMoves={false} orientation="white" isReadOnly={true}/>
+                    </div>
+                    <div className="mt-4">
+                        <div className="flex">
+                            <img className="inline-block w-14 h-14"
+                                 src='data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='
+                                 alt=''/>
+                            <div className="my-auto">
+                                <div className="ml-2 text-lg">Blitz <span className="text-sm">5 + 0</span></div>
+                                <div className="ml-2 text-sm">2 weeks ago</div>
+                            </div>
+
+                        </div>
+
+                        <span className="text-red-700"><span className="text-md font-bold">{game.status}</span>.</span>
+                        {/*<h2><b>Win</b> testUser vs. Test2</h2>*/}
+                    </div>
+                </div>
             </Link>
-        </>
+        </div>
     )
 }
 
@@ -55,12 +76,12 @@ export function RecentGames(props: RecentGamesProps) {
     }
 
     return (
-        <>
+        <div className="grid gap-3">
             {
                 temp.map(e => {
                     return <GamePreview key={e.id} game={e}/>
                 })
             }
-        </>
+        </div>
     );
 }

@@ -5,17 +5,18 @@ import {User, UserApi} from "../../data/resource/users";
 interface UserProfileState {
     usersById: Record<string, User>
     isLoading: boolean;
-    error: string | null;
+    error: string | undefined;
 }
 
 const initialState: UserProfileState = {
     usersById: {},
     isLoading: false,
-    error: null
+    error: undefined
 };
 
 const startLoading = (state: UserProfileState) => {
     state.isLoading = true;
+    state.error = undefined;
 }
 
 const requestError = (state: UserProfileState, action: PayloadAction<string>) => {
@@ -34,7 +35,7 @@ export const userProfileSlice = createSlice({
         getUserSuccess: (state, {payload}: PayloadAction<User>) => {
             state.usersById[payload.id] = payload;
             state.isLoading = false
-            state.error = null;
+            state.error = undefined;
         }
     },
 });
@@ -42,7 +43,11 @@ export const userProfileSlice = createSlice({
 export const {getUserFailure, getUsersFailure, getUsersStart, getUserStart, getUserSuccess} = userProfileSlice.actions;
 
 export const getUserAsync = (id: string): AppThunk => async dispatch => {
-    UserApi.getUserById(id).then(e => dispatch(getUserSuccess(e)));
+    dispatch(getUserStart());
+    UserApi.getUserById(id)
+        .then(e => dispatch(getUserSuccess(e)))
+        .catch((err: Error) => dispatch(getUserFailure(err.message)))
+    ;
 };
 
 export const selectUserProfile = (state: RootState) => state.user_profile;

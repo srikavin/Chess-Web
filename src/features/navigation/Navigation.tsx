@@ -37,7 +37,7 @@ export function Navigation() {
                 </NavHeader>
                 <NavDivider/>
                 <NavLink to='/games/' label="Games"/>
-                <NavLink to='/users/sVnqCf26BJhGJHQz' label="Test"/>
+                <NavLink to='/users/ww8faLIRINGEoB5T' label="Test"/>
                 <NavLink to='/users/UdhOzGh5bqwat0GN' label="Test2"/>
             </NavGroup>
             <NavGroup align={'right'}>

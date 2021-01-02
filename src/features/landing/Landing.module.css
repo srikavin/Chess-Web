@@ -1,0 +1,7 @@
+.game {
+    min-height: 640px;
+}
+
+.hero {
+    background-attachment: fixed;
+}

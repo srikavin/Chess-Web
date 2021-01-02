@@ -4,7 +4,6 @@ import './theme.css'
 import {Chessground} from "chessground";
 import {Api} from "chessground/api";
 import {Config} from "chessground/config";
-import {ChessMove} from "../../data/resource/games";
 
 export type ChessgroundWrapperProps = {
     className?: string;
@@ -12,28 +11,27 @@ export type ChessgroundWrapperProps = {
     config: Config
 }
 
-export class ChessgroundWrapper extends Component<ChessgroundWrapperProps, {}> {
+export class ChessgroundWrapper extends Component<ChessgroundWrapperProps, { interval?: any }> {
     chessground?: Api;
     rootRef: RefObject<HTMLDivElement>;
 
     constructor(props: any) {
         super(props);
         this.rootRef = React.createRef();
+        this.state = {};
     }
 
     componentDidMount() {
         this.chessground = Chessground(this.rootRef.current!, this.props.config);
-        const old = this.chessground!.state.dom.bounds;
 
-        // avoid chessground's memoization of bounds, as elements may render which shift the position of the board
-        const f = () => {
-            old.clear();
-            return old();
-        };
-
-        f.clear = old.clear;
-
-        this.chessground!.state.dom.bounds = f;
+        // TODO: Find a proper way to update the bounds
+        this.setState({
+            interval: setInterval(() => {
+                if (this.chessground) {
+                    this.chessground?.redrawAll();
+                }
+            }, 500)
+        });
     }
 
     componentDidUpdate() {
@@ -42,10 +40,7 @@ export class ChessgroundWrapper extends Component<ChessgroundWrapperProps, {}> {
 
     componentWillUnmount() {
         this.chessground?.destroy();
-    }
-
-    makeMove(move: ChessMove) {
-        this.chessground?.move(move.source, move.end);
+        clearTimeout(this.state.interval);
     }
 
     render() {

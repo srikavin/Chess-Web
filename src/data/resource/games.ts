@@ -33,6 +33,12 @@ export enum GameStatus {
     WAITING = "WAITING"
 }
 
+export class GameStatusUtils {
+    static hasEnded(status: GameStatus) {
+        return status === GameStatus.ENDED_BLACK_WINS || status === GameStatus.ENDED_DRAW || status === GameStatus.ENDED_WHITE_WINS;
+    }
+}
+
 export interface Game {
     id: string;
     initialFen: string;
@@ -87,6 +93,9 @@ export const GameApi = {
     },
     async joinGame(id: GameIdentifier) {
         sendWebsocketMessage(ChessWebsocketTypes.CLIENT_JOIN_GAME, {id})
+    },
+    async createAndJoinGame() {
+        sendWebsocketMessage(ChessWebsocketTypes.CLIENT_CREATE_GAME, {})
     },
     async makeMove(id: GameIdentifier, move: ChessMove) {
         sendWebsocketMessage(ChessWebsocketTypes.CLIENT_MAKE_MOVE, {id, move});
