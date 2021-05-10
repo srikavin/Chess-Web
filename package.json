@@ -23,7 +23,7 @@
     "connected-react-router": "^6.8.0",
     "dayjs": "^1.9.8",
     "history": "^4.10.1",
-    "postcss": "^7.0.35",
+    "postcss": "^8.2.10",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
