@@ -9,7 +9,7 @@ let cx = classNames.bind(styles);
 export interface ButtonProps {
     children: ReactNode;
     minimal?: boolean;
-    onClick: () => void;
+    onClick?: () => void;
     icon?: ReactNode;
     className?: string;
 }
@@ -22,7 +22,7 @@ export function Button(props: ButtonProps) {
     }, props.className);
 
     return (
-        <button className={btnClass} type="button" onClick={() => props.onClick()}>
+        <button className={btnClass} type="button" onClick={() => props.onClick ? props.onClick() : undefined}>
             {props.icon ? (
                 <span className={styles.icon}>
                     {props.icon}

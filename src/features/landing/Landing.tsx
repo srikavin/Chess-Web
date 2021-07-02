@@ -19,19 +19,16 @@ export function Landing() {
                         source chess server.
                     </div>
                     <Link to={'/register'}>
-                        <Button onClick={() => 1} className="">
+                        <Button className="">
                             Join Now
                         </Button>
                     </Link>
                 </div>
 
-                <div className="flex-auto max-w-xl max-h-4 origin-bottom-left">
-                    <Link to={'/games/OvlnJe3B5Trle1tA'}>
-                        <GameBoard game_id={"OvlnJe3B5Trle1tA"} className={`w-5/6 h-5/6 ${styles.game}`}
-                                   onMove={() => 1}
-                                   validateMoves={true} isReadOnly={true} allowMoves={false} orientation={'white'}/>
-                    </Link>
-                </div>
+                <Link to={'/games/OvlnJe3B5Trle1tA'}>
+                    <GameBoard game_id={"OvlnJe3B5Trle1tA"} className={styles.game}
+                               validateMoves={true} isReadOnly={true} allowMoves={false} orientation={'white'}/>
+                </Link>
             </div>
         </>
     )

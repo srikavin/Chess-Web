@@ -1,5 +1,6 @@
 .game {
     min-height: 640px;
+    min-width: 640px;
 }
 
 .hero {
