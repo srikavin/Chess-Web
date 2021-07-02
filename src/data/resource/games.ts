@@ -68,7 +68,7 @@ export interface ChessClock {
 export interface ChessMove {
     source: ChessPosition;
     end: ChessPosition;
-    promotion?: Exclude<PieceType, 'p'>;
+    promotion?: Exclude<PieceType, 'p' | 'k'>;
 }
 
 

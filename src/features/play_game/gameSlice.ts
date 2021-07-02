@@ -128,7 +128,7 @@ export const joinGameAsync = (game_id: GameIdentifier): AppThunk => async () => 
     await GameApi.joinGame(game_id);
 };
 
-export const makeMoveAsync = (id: string, from: ChessPosition, to: ChessPosition, promotion: Exclude<PieceType, 'p'>): AppThunk => async dispatch => {
+export const makeMoveAsync = (id: string, from: ChessPosition, to: ChessPosition, promotion: Exclude<PieceType, 'p' | 'k'>): AppThunk => async dispatch => {
     dispatch(makeMoveLocal({id, move: {source: from, end: to, promotion}}));
     await GameApi.makeMove(id, {source: from, end: to, promotion: promotion});
 };

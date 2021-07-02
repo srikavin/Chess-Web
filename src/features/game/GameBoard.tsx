@@ -19,6 +19,8 @@ export type GameBoardProps = {
 
     allowMoves: boolean;
 
+    coordinates?: boolean;
+
     orientation: 'white' | 'black';
 }
 
@@ -54,7 +56,6 @@ export function GameBoard(props: GameBoardProps) {
 
     const config: Config = {
         fen: game?.currentFen ? game.currentFen : '8/8/8/8/8/8/8/8',
-        resizable: true,
         viewOnly: isReadOnly,
         movable: {
             free: false,
@@ -65,7 +66,7 @@ export function GameBoard(props: GameBoardProps) {
         draggable: {
             enabled: props.allowMoves
         },
-        // coordinates: false
+        coordinates: props.coordinates !== undefined ? props.coordinates : true
     }
 
     if (!isReadOnly) {

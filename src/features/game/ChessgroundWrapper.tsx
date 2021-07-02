@@ -1,6 +1,7 @@
 import React, {Component, RefObject} from "react";
-import './chessground.css'
-import './theme.css'
+import 'chessground/assets/chessground.base.css'
+import 'chessground/assets/chessground.brown.css'
+import 'chessground/assets/chessground.cburnett.css'
 import {Chessground} from "chessground";
 import {Api} from "chessground/api";
 import {Config} from "chessground/config";

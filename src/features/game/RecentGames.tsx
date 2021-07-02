@@ -23,7 +23,7 @@ export function GamePreview(props: GamePreviewProps) {
                 <div className="flex gap-4">
                     <div className="w-60 h-60">
                         <GameBoard game_id={game.id} className={styles.previewBoard} validateMoves={false}
-                                   allowMoves={false} orientation="white" isReadOnly={true}/>
+                                   allowMoves={false} orientation="white" isReadOnly={true} coordinates={false}/>
                     </div>
                     <div className="mt-4">
                         <div className="flex">
