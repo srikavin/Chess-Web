@@ -10,6 +10,7 @@ import {Skeleton} from "../../components/Skeleton/Skeleton";
 export interface UserPreviewProps {
     user_id: string;
     className?: string;
+    info?: string;
 }
 
 export type PureUserPreviewProps = {
@@ -21,14 +22,14 @@ export type PureUserPreviewProps = {
     user_id: UserIdentifier;
     username: string;
     profilePicUrl: string;
-    bio: string;
+    info: string;
 }
 
 export function PureUserPreview(props: PureUserPreviewProps) {
     if (props.loading) {
         return (
             <>
-                <div className={styles.user_preview + ' ' + (props.className ? props.className : '')}>
+                <div className={`${styles.user_preview} ${(props.className || '')}`}>
                     <Loader size='medium'/>
                     <div className={styles.content}>
                         <Skeleton>
@@ -42,14 +43,16 @@ export function PureUserPreview(props: PureUserPreviewProps) {
 
     return (
         <>
-            <div className={styles.user_preview + ' ' + (props.className ? props.className : '')}>
+            <div className={`${styles.user_preview} ${(props.className || '')}`}>
                 <img src={props.profilePicUrl} alt=''/>
                 <div className={styles.content}>
-                    <div>
+                    <div className="pt-1">
                         <a href={`/users/${props.user_id}`}>
-                            {props.username} <span className={styles.rating}>(1280)</span>
+                            <span className={styles.username}>{props.username}</span> <span
+                            className={styles.rating}>(1280)</span>
                         </a>
                     </div>
+                    <div className="text-sm pb-1">{props.info}</div>
                 </div>
             </div>
         </>
@@ -78,6 +81,6 @@ export function UserPreview(props: UserPreviewProps) {
                          user_id={user.id}
                          username={user.username}
                          profilePicUrl={user.profilePicUrl}
-                         bio={user.bio}/>
+                         info={props.info ? props.info : user.bio}/>
     );
 }

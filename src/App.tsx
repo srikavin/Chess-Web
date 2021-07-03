@@ -7,16 +7,11 @@ import {Navigation} from "./features/navigation/Navigation";
 import {PlayGameRoute} from "./features/play_game/PlayGame";
 import {RecentGames} from "./features/game/RecentGames";
 import {LoginRoute, RegisterRoute} from "./features/auth/Authentication";
-import {useDispatch} from "react-redux";
-import {createGameAsync} from "./features/play_game/gameSlice";
 import {ConnectedRouter} from "connected-react-router";
 import {history} from "./app/store";
 import {Landing} from "./features/landing/Landing";
-import {Button} from "./components/Button/Button";
 
 function App() {
-    const dispatch = useDispatch();
-
     return (
         <>
             <Router>
@@ -41,7 +36,6 @@ function App() {
                             </Route>
                             <Route path="/">
                                 <Landing/>
-                                <Button onClick={() => dispatch(createGameAsync())}>Create and Join New Game</Button>
                             </Route>
                         </Switch>
                     </div>

@@ -3,11 +3,15 @@ import {Button} from "../../components/Button/Button";
 import {GameBoard} from "../game/GameBoard";
 import {Link} from 'react-router-dom';
 import styles from './Landing.module.css'
+import {createGameAsync} from "../play_game/gameSlice";
+import {useDispatch} from "react-redux";
 
 export function Landing() {
+    const dispatch = useDispatch();
+
     return (
         <>
-            <div className={`container mx-auto flex flex-row w-screen h-screen ${styles.hero}`}>
+            <div className={`container mx-auto flex flex-row flex-wrap w-screen ${styles.hero}`}>
                 <div className="flex-none px-10">
                     <h1 className="text-9xl font-thin text-blue-600">
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500 ">
@@ -22,6 +26,7 @@ export function Landing() {
                         <Button className="">
                             Join Now
                         </Button>
+                        <Button onClick={() => dispatch(createGameAsync())}>Create and Join New Game</Button>
                     </Link>
                 </div>
 

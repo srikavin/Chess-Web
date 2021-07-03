@@ -30,12 +30,26 @@ export enum GameStatus {
     ENDED_DRAW = "ENDED_DRAW",
     ENDED_WHITE_WINS = "ENDED_WHITE_WINS",
     ENDED_BLACK_WINS = "ENDED_BLACK_WINS",
+    ENDED_WHITE_OUT_OF_TIME = "ENDED_WHITE_OUT_OF_TIME",
+    ENDED_BLACK_OUT_OF_TIME = "ENDED_BLACK_OUT_OF_TIME",
     WAITING = "WAITING"
 }
 
 export class GameStatusUtils {
     static hasEnded(status: GameStatus) {
-        return status === GameStatus.ENDED_BLACK_WINS || status === GameStatus.ENDED_DRAW || status === GameStatus.ENDED_WHITE_WINS;
+        return this.isWhiteWin(status) || this.isBlackWin(status) || this.isDraw(status);
+    }
+
+    static isWhiteWin(status: GameStatus) {
+        return status === GameStatus.ENDED_WHITE_WINS || status === GameStatus.ENDED_BLACK_OUT_OF_TIME;
+    }
+
+    static isBlackWin(status: GameStatus) {
+        return status === GameStatus.ENDED_BLACK_WINS || status === GameStatus.ENDED_WHITE_OUT_OF_TIME;
+    }
+
+    static isDraw(status: GameStatus) {
+        return status === GameStatus.ENDED_DRAW;
     }
 }
 

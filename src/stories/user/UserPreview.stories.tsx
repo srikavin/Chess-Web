@@ -15,7 +15,7 @@ Default.args = {
     username: 'username',
     user_id: 'yl2gzpDS5NN5Jj6G',
     loading: false,
-    bio: 'Example Bio.',
+    info: 'Example Bio.',
     className: '',
     profilePicUrl: 'https://chess-glade-dev.herokuapp.com/api/v1/users/yl2gzpDS5NN5Jj6G/preview'
 };
