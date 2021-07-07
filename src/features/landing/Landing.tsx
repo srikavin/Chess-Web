@@ -3,7 +3,7 @@ import {Button} from "../../components/Button/Button";
 import {GameBoard} from "../game/GameBoard";
 import {Link} from 'react-router-dom';
 import styles from './Landing.module.css'
-import {createGameAsync} from "../play_game/gameSlice";
+import {createAiGameAsync, createGameAsync} from "../play_game/gameSlice";
 import {useDispatch} from "react-redux";
 
 export function Landing() {
@@ -23,10 +23,8 @@ export function Landing() {
                         source chess server.
                     </div>
                     <Link to={'/register'}>
-                        <Button className="">
-                            Join Now
-                        </Button>
-                        <Button onClick={() => dispatch(createGameAsync())}>Create and Join New Game</Button>
+                        <Button onClick={() => dispatch(createGameAsync())}>Play against a friend</Button>
+                        <Button onClick={() => dispatch(createAiGameAsync())}>Play against Stockfish</Button>
                     </Link>
                 </div>
 

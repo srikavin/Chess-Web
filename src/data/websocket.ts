@@ -12,6 +12,7 @@ export enum ChessWebsocketTypes {
     CLIENT_JOIN_GAME = "join_game",
     CLIENT_REQUEST_CLOCK_SYNC = "request_clock_sync",
     CLIENT_CREATE_GAME = "create_game",
+    CLIENT_CREATE_AI_GAME = "create_ai_game",
     SERVER_PLAYER_MOVE = "player_move",
     SERVER_PLAYER_JOIN = "player_join",
     SERVER_CREATE_GAME = "game_create",

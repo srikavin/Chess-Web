@@ -111,6 +111,9 @@ export const GameApi = {
     async createAndJoinGame() {
         sendWebsocketMessage(ChessWebsocketTypes.CLIENT_CREATE_GAME, {})
     },
+    async createAndJoinAiGame() {
+        sendWebsocketMessage(ChessWebsocketTypes.CLIENT_CREATE_AI_GAME, {})
+    },
     async makeMove(id: GameIdentifier, move: ChessMove) {
         sendWebsocketMessage(ChessWebsocketTypes.CLIENT_MAKE_MOVE, {id, move});
     },

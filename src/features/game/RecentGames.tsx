@@ -45,7 +45,7 @@ export function GamePreview(props: GamePreviewProps) {
 
     return (
         <div
-            className="border-solid border rounder bg-white-500 border-black rounded">
+            className="border-solid border rounder bg-white-500 border-black rounded shadow-md hover:shadow-lg transition-shadow">
             <Link to={`/games/${game.id}`}>
                 <div className="flex gap-4">
                     <div className="w-60 h-60">

@@ -11,6 +11,7 @@ import {GameStatus, PlayerColor} from "../../data/resource/games";
 import {Clock} from "../game/ChessClock";
 import {Loader} from "../../components/Loader/Loader";
 import {Button} from "../../components/Button/Button";
+import {motion} from "framer-motion"
 
 export function PlayGame(props: { game_id: string }) {
     const dispatch = useDispatch();
@@ -86,7 +87,7 @@ export function PlayGame(props: { game_id: string }) {
     }
 
     return (
-        <div className={styles.container}>
+        <motion.div className={styles.container} layout>
             <div className={`${styles.player} ${styles.playerOne}`}>
                 <UserPreview user_id={playerTwo} className={styles.preview}/>
                 <div className={styles.clock}>
@@ -132,7 +133,7 @@ export function PlayGame(props: { game_id: string }) {
                     )
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 }
 

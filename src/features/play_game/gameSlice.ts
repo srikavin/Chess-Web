@@ -137,6 +137,10 @@ export const createGameAsync = (): AppThunk => async () => {
     await GameApi.createAndJoinGame();
 }
 
+export const createAiGameAsync = (): AppThunk => async () => {
+    await GameApi.createAndJoinAiGame();
+}
+
 export const requestClockSync = (id: string): AppThunk => async () => {
     await GameApi.syncClock(id);
 };

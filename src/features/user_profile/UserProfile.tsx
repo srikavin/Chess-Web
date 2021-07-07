@@ -77,7 +77,7 @@ export function PureUserProfile(props: PureUserProfileProps) {
             </div>
 
             <div
-                className="md:w-8/12 container rounded border p-4 shadow-sm bg-gradient-to-t from-white to-blue-50 via-white">
+                className="md:w-8/12 container rounded border p-4 shadow-sm">
                 <h1 className="text-3xl font-bold">{user.username}</h1>
                 <small className="text-sm italic">Last seen {dayjs(user.lastSeen).fromNow()}</small>
 
